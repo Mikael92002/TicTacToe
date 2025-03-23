@@ -6,6 +6,8 @@ const displayController = (function () {
 })();
 
 const gameLogic = (function () {
+    //gameButtons defined here because of regular use:
+    const gameButtons = document.querySelectorAll(".game-button");
     //player name/icon extracting logic:
     const startButton = document.querySelector("#start-button");
     const playerOneInputField = document.querySelector(".player-one-name");
@@ -49,15 +51,13 @@ const gameLogic = (function () {
     //Player assigning logic:
     const playerOneButtonDiv = document.createElement("button");
     const playerTwoButtonDiv = document.createElement("button");
+    const nameOneDiv = document.querySelector("#nameOne");
+    const nameTwoDiv = document.querySelector("#nameTwo");
 
     let playerOne;
     let playerTwo;
 
     function playerAssignmentClick() {
-        const nameOneDiv = document.querySelector("#nameOne");
-        const nameTwoDiv = document.querySelector("#nameTwo");
-
-
 
         const assignPlayer = (name, marker) => {
             const playerName = name;
@@ -65,7 +65,7 @@ const gameLogic = (function () {
             let score = 0;
             let turn;
             let gridPlace = [];
-            return { name, playerMarker, score, turn };
+            return { name, playerMarker, score, turn, gridPlace };
         }
 
         playerOne = assignPlayer(playerOneName, playerOneMarker);
@@ -95,6 +95,10 @@ const gameLogic = (function () {
             button.disabled = true;
         });
         startButton.disabled = true;
+
+        gameButtons.forEach(button => {
+            button.disabled = false;
+        });
     });
 
     let activeMarker;
@@ -121,10 +125,12 @@ const gameLogic = (function () {
     //Button-clicking logic:
     let playerWin = false;
 
-    const gameButtons = document.querySelectorAll(".game-button");
+
     gameButtons.forEach(button => {
+        button.disabled = true;
         button.addEventListener("click", (event) => {
-            if(playerWin){
+            if (playerWin) {
+
                 return;
             }
             button.style.fontSize = "100px";
@@ -132,8 +138,13 @@ const gameLogic = (function () {
 
             if (!gameBoard.arr.includes(event.target.id)) {
                 gameBoard.arr[event.target.id] = event.target.id;
+                if (playerOne.turn) {
+                    playerOne.gridPlace.push(event.target.id);
+                }
+                else {
+                    playerTwo.gridPlace.push(event.target.id);
+                }
                 button.textContent = currentPlayerButton();
-
                 if (button.textContent === "X") {
                     button.style.color = "rgb(255, 221, 0)";
                 }
@@ -142,23 +153,39 @@ const gameLogic = (function () {
 
             winCheck(playerOne);
             winCheck(playerTwo);
+            if (playerWin) {
+                nameOneDiv.textContent = playerOne.name + ": " + playerOne.score + " ";
+                nameTwoDiv.textContent = playerTwo.name + ": " + playerTwo.score + " ";
+            }
         })
     });
 
     function winCheck(player) {
-        if (player.gridPlace.includes("0") && player.gridPlace.includes("1") && player.gridPlace.includes("2")){
+        if (player.gridPlace.includes("0") && player.gridPlace.includes("1") && player.gridPlace.includes("2")) {
             player.score++;
             playerWin = true;
         }
-        else if(player.gridPlace.includes("3") && player.gridPlace.includes("4") && player.gridPlace.includes("5")){
+        else if (player.gridPlace.includes("3") && player.gridPlace.includes("4") && player.gridPlace.includes("5")) {
             player.score++;
             playerWin = true;
         }
-        else if(player.gridPlace.includes("6") && player.gridPlace.includes("7") && player.gridPlace.includes("8")){
+        else if (player.gridPlace.includes("6") && player.gridPlace.includes("7") && player.gridPlace.includes("8")) {
             player.score++;
             playerWin = true;
         }
-        else if(player.gridPlace.includes("2") && player.gridPlace.includes("4") && player.gridPlace.includes("6")){
+        else if (player.gridPlace.includes("2") && player.gridPlace.includes("4") && player.gridPlace.includes("6")) {
+            player.score++;
+            playerWin = true;
+        }
+        else if (player.gridPlace.includes("0") && player.gridPlace.includes("4") && player.gridPlace.includes("8")) {
+            player.score++;
+            playerWin = true;
+        }
+        else if (player.gridPlace.includes("2") && player.gridPlace.includes("5") && player.gridPlace.includes("8")) {
+            player.score++;
+            playerWin = true;
+        }
+        else if (player.gridPlace.includes("0") && player.gridPlace.includes("3") && player.gridPlace.includes("6")) {
             player.score++;
             playerWin = true;
         }
