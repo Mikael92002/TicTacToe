@@ -45,7 +45,7 @@ const gameLogic = (function () {
             document.querySelector(".two-marker-o").style.backgroundColor = "blueviolet";
             startButton.disabled = false;
         }
-        if(event.target.classList.contains("two-marker-x")){
+        if (event.target.classList.contains("two-marker-x")) {
             playerOneMarker = "O";
             playerTwoMarker = "X";
             event.target.style.backgroundColor = "green";
@@ -54,7 +54,7 @@ const gameLogic = (function () {
             document.querySelector(".two-marker-o").style.backgroundColor = "blueviolet";
             startButton.disabled = false;
         }
-        else if(event.target.classList.contains("two-marker-o")){
+        else if (event.target.classList.contains("two-marker-o")) {
             playerOneMarker = "X";
             playerTwoMarker = "O";
             event.target.style.backgroundColor = "green";
@@ -112,8 +112,18 @@ const gameLogic = (function () {
     }
 
     startButton.addEventListener("click", () => {
-        playerOneName = playerOneInputField.value;
-        playerTwoName = playerTwoInputField.value;
+        if (playerOneInputField.value.trim() === "" || playerTwoInputField.value.trim() === "") {
+            if (playerOneInputField.value.trim() === "") {
+                playerOneName = "X";
+            }
+            if (playerTwoInputField.value.trim() === "") {
+                playerTwoName = "O";
+            }
+        }
+        else {
+            playerOneName = playerOneInputField.value;
+            playerTwoName = playerTwoInputField.value;
+        }
         playerAssignmentClick();
         selectionButtons.forEach(button => {
             button.disabled = true;
