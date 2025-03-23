@@ -12,6 +12,7 @@ const gameLogic = (function () {
     //player name/icon extracting logic:
     const startButton = document.querySelector("#start-button");
     const restartButton = document.querySelector("#restart-button");
+    const continueButton = document.querySelector("#continue-button");
     const selectionButtons = document.querySelectorAll(".selection");
     const playerOneInputField = document.querySelector(".player-one-name");
     const playerTwoInputField = document.querySelector(".player-two-name");
@@ -52,8 +53,10 @@ const gameLogic = (function () {
 
 
     //Player assigning logic:
-    const playerOneButtonDiv = document.createElement("button");
-    const playerTwoButtonDiv = document.createElement("button");
+    const playerOneButton = document.createElement("button");
+    const playerTwoButton = document.createElement("button");
+    const nameOneWrapperDiv = document.querySelector("#nameOneWrapper");
+    const nameTwoWrapperDiv = document.querySelector("#nameTwoWrapper");
     const nameOneDiv = document.querySelector("#nameOne");
     const nameTwoDiv = document.querySelector("#nameTwo");
 
@@ -78,16 +81,16 @@ const gameLogic = (function () {
         nameOneDiv.textContent = playerOne.name + ": " + playerOne.score + " ";
         nameTwoDiv.textContent = playerTwo.name + ": " + playerTwo.score + " ";
 
-        playerOneButtonDiv.textContent = playerOneMarker;
-        playerOneButtonDiv.style.backgroundColor = "green";
-        playerOneButtonDiv.style.border = "none";
-        playerOneButtonDiv.style.padding = "5px";
-        playerTwoButtonDiv.textContent = playerTwoMarker;
-        playerTwoButtonDiv.style.backgroundColor = "blueviolet";
-        playerTwoButtonDiv.style.padding = "5px";
-        playerTwoButtonDiv.style.border = "none";
-        nameOneDiv.appendChild(playerOneButtonDiv);
-        nameTwoDiv.appendChild(playerTwoButtonDiv);
+        playerOneButton.textContent = playerOneMarker;
+        playerOneButton.style.backgroundColor = "green";
+        playerOneButton.style.border = "none";
+        playerOneButton.style.padding = "5px";
+        playerTwoButton.textContent = playerTwoMarker;
+        playerTwoButton.style.backgroundColor = "blueviolet";
+        playerTwoButton.style.padding = "5px";
+        playerTwoButton.style.border = "none";
+        nameOneWrapperDiv.appendChild(playerOneButton);
+        nameTwoWrapperDiv.appendChild(playerTwoButton);
     }
 
     startButton.addEventListener("click", () => {
@@ -102,37 +105,50 @@ const gameLogic = (function () {
             button.disabled = false;
         });
     });
-   
-        
+    restartButton.addEventListener("click", () => {
+        if (playerOne === undefined) return;
+        playerOne.gridPlace.length = 0;
+        playerTwo.gridPlace.length = 0;
+        gameBoard.arr.length = 0;
+        gameButtons.forEach(button => {
+            button.textContent = "";
+            playerWin = false;
+        })
+    })
     
+
+
+
 
     let activeMarker;
 
     const currentPlayerButton = () => {
         if (playerOne.turn) {
             activeMarker = playerOne.playerMarker;
-            playerOne.turn = !playerOne.turn;
-            playerTwo.turn = !playerTwo.turn;
-            playerOneButtonDiv.style.backgroundColor = "blueViolet";
-            playerTwoButtonDiv.style.backgroundColor = "green";
+            playerOne.turn = false;
+            playerTwo.turn = true;
+            playerOneButton.style.backgroundColor = "blueViolet";
+            playerTwoButton.style.backgroundColor = "green";
             return activeMarker;
         }
         else {
             activeMarker = playerTwo.playerMarker;
-            playerOne.turn = !playerOne.turn;
-            playerTwo.turn = !playerTwo.turn;
-            playerOneButtonDiv.style.backgroundColor = "green";
-            playerTwoButtonDiv.style.backgroundColor = "blueViolet";
+            playerOne.turn = true;
+            playerTwo.turn = false;
+            playerOneButton.style.backgroundColor = "green";
+            playerTwoButton.style.backgroundColor = "blueViolet";
             return activeMarker;
         }
     }
 
     //Button-clicking logic:
+    const dialog = document.querySelector("dialog");
+    const winningPlayerDiv = document.querySelector("#winning-player");
+
     gameButtons.forEach(button => {
         button.disabled = true;
         button.addEventListener("click", (event) => {
             if (playerWin) {
-
                 return;
             }
             button.style.fontSize = "100px";
@@ -146,65 +162,84 @@ const gameLogic = (function () {
                 else {
                     playerTwo.gridPlace.push(event.target.id);
                 }
-                button.textContent = currentPlayerButton();
-                if (button.textContent === "X") {
-                    button.style.color = "rgb(255, 221, 0)";
-                }
-                else button.style.color = "rgb(118, 228, 255)";
+
             }
 
-            winCheck(playerOne);
-            winCheck(playerTwo);
+            const winningPlayerOne = winCheck(playerOne);
+            const winningPlayerTwo = winCheck(playerTwo);
+            button.textContent = currentPlayerButton();
+            if (button.textContent === "X") {
+                button.style.color = "rgb(255, 221, 0)";
+            }
+            else button.style.color = "rgb(118, 228, 255)";
+
             if (playerWin) {
                 nameOneDiv.textContent = playerOne.name + ": " + playerOne.score + " ";
                 nameTwoDiv.textContent = playerTwo.name + ": " + playerTwo.score + " ";
-
-                playerOneButtonDiv.textContent = playerOneMarker;
-                playerOneButtonDiv.style.backgroundColor = "green";
-                playerOneButtonDiv.style.border = "none";
-                playerOneButtonDiv.style.padding = "5px";
-                playerTwoButtonDiv.textContent = playerTwoMarker;
-                playerTwoButtonDiv.style.backgroundColor = "blueviolet";
-                playerTwoButtonDiv.style.padding = "5px";
-                playerTwoButtonDiv.style.border = "none";
-                nameOneDiv.appendChild(playerOneButtonDiv);
-                nameTwoDiv.appendChild(playerTwoButtonDiv);
+                if(winningPlayerOne!==undefined){
+                    winningPlayerDiv.textContent = playerOne.name + " wins!";
+                }
+                else if(winningPlayerTwo !== undefined){
+                    winningPlayerDiv.textContent = playerTwo.name + " wins!";
+                }
+                dialog.showModal();
             }
         })
+    });
+
+    continueButton.addEventListener("click", () => {
+        if (playerOne === undefined) return;
+        playerOne.gridPlace.length = 0;
+        playerTwo.gridPlace.length = 0;
+        gameBoard.arr.length = 0;
+        gameButtons.forEach(button => {
+            button.textContent = "";
+            playerWin = false;
+        })
+        winningPlayerDiv.textContent = "";
+        dialog.close();
     });
 
     function winCheck(player) {
         if (player.gridPlace.includes("0") && player.gridPlace.includes("1") && player.gridPlace.includes("2")) {
             player.score++;
             playerWin = true;
+            return player;
         }
         else if (player.gridPlace.includes("3") && player.gridPlace.includes("4") && player.gridPlace.includes("5")) {
             player.score++;
             playerWin = true;
+            return player;
         }
         else if (player.gridPlace.includes("6") && player.gridPlace.includes("7") && player.gridPlace.includes("8")) {
             player.score++;
             playerWin = true;
+            return player;
         }
         else if (player.gridPlace.includes("2") && player.gridPlace.includes("4") && player.gridPlace.includes("6")) {
             player.score++;
             playerWin = true;
+            return player;
         }
         else if (player.gridPlace.includes("0") && player.gridPlace.includes("4") && player.gridPlace.includes("8")) {
             player.score++;
             playerWin = true;
+            return player;
         }
         else if (player.gridPlace.includes("2") && player.gridPlace.includes("5") && player.gridPlace.includes("8")) {
             player.score++;
             playerWin = true;
+            return player;
         }
         else if (player.gridPlace.includes("0") && player.gridPlace.includes("3") && player.gridPlace.includes("6")) {
             player.score++;
             playerWin = true;
+            return player;
         }
         else if (player.gridPlace.includes("1") && player.gridPlace.includes("4") && player.gridPlace.includes("7")) {
             player.score++;
             playerWin = true;
+            return player;
         }
     }
 

@@ -68,7 +68,7 @@ button[class$="-x"]{
     font-size: 1em;
     background-color: blueviolet;
 }
-#start-button, #restart-button{
+#start-button, #restart-button, #continue-button{
     border:none;
     font-weight: 900;
     font-size:large;
@@ -88,4 +88,10 @@ button:disabled{
     display: flex;
     justify-content: space-between;
     gap:30px;
+}
+#nameOneWrapper, #nameTwoWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

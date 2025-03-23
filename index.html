@@ -10,6 +10,10 @@
 </head>
 
 <body>
+    <dialog>
+        <div id="winning-player"></div>
+        <button id="continue-button">CONTINUE!</button>
+    </dialog>
     <div class="title-section">
         <h1>Tic Tac Toe!</h1>
     </div>
@@ -34,8 +38,12 @@
 
         <div id="main-grid">
             <div class="player-names-container">
-                <div id="nameOne">Player 1: </div>
-                <div id="nameTwo">Player 2: </div>
+                <div id="nameOneWrapper">
+                    <div id="nameOne">Player 1: </div>
+                </div>
+                <div id="nameTwoWrapper">
+                    <div id="nameTwo">Player 2: </div>
+                </div>
             </div>
             <button class="game-button" id="0"></button>
             <button class="game-button" id="1"></button>
