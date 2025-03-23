@@ -183,7 +183,7 @@ const gameLogic = (function () {
             if (playerWin) {
                 return;
             }
-            button.style.fontSize = "100px";
+            button.style.fontSize = "7rem";
             button.style.fontWeight = "900";
 
             if (!gameBoard.arr.includes(event.target.id)) {

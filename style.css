@@ -10,15 +10,15 @@ body {
 }
 
 html {
-    height: 100%;
+    height: 100dvh;
     background-color: rgb(189, 84, 255);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 #main-grid {
     display: grid;
-    grid-template-columns: 200px 200px 200px;
-    grid-template-rows: min-content 200px 200px 200px;
+    grid-template-columns: minmax(20px, 200px) minmax(20px, 200px) minmax(20px, 200px);
+    grid-template-rows: min-content minmax(20px, 200px) minmax(20px, 200px) minmax(20px, 200px);
     justify-self: center;
     align-self: center;
     margin-top: 50px;
@@ -40,62 +40,75 @@ html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap:20px;
+    gap: 20px;
     font-weight: 900;
 }
 
 button {
     border: 5px solid black;
 }
-button:active{
+
+button:active {
     transform: scale(0.98);
 }
 
 button[id$="confirm"] {
     border: none;
 }
-button[class$="-o"]{
-    color:rgb(118, 228, 255);
+
+button[class$="-o"] {
+    color: rgb(118, 228, 255);
     font-weight: 900;
     font-size: 1em;
-    border:none;
-    background-color:blueviolet;
+    border: none;
+    background-color: blueviolet;
 }
-button[class$="-x"]{
-    color:rgb(225, 255, 0);
+
+button[class$="-x"] {
+    color: rgb(225, 255, 0);
     border: none;
     font-weight: 900;
     font-size: 1em;
     background-color: blueviolet;
 }
-#start-button, #restart-button, #continue-button{
-    border:none;
+
+#start-button,
+#restart-button,
+#continue-button {
+    border: none;
     font-weight: 900;
-    font-size:large;
+    font-size: large;
     background-color: blueviolet;
     color: yellow;
-    border-radius:20px;
-    padding:10px;
-    margin-top:10px;
+    border-radius: 20px;
+    padding: 10px;
+    margin-top: 10px;
 }
-#start-button:enabled:active, #restart-button:active{
+
+#start-button:enabled:active,
+#restart-button:active {
     box-shadow: 0 0 2.5px 2.5px black;
 }
-button:disabled{
+
+button:disabled {
     transform: none;
 }
-.action-buttons{
+
+.action-buttons {
     display: flex;
     justify-content: space-between;
-    gap:30px;
+    gap: 30px;
 }
-#nameOneWrapper, #nameTwoWrapper{
+
+#nameOneWrapper,
+#nameTwoWrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-#dialog-container{
+
+#dialog-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
