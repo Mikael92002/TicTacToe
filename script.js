@@ -112,16 +112,16 @@ const gameLogic = (function () {
     }
 
     startButton.addEventListener("click", () => {
-        if (playerOneInputField.value.trim() === "" || playerTwoInputField.value.trim() === "") {
-            if (playerOneInputField.value.trim() === "") {
-                playerOneName = "X";
-            }
-            if (playerTwoInputField.value.trim() === "") {
-                playerTwoName = "O";
-            }
+        if (playerOneInputField.value.trim() === "") {
+            playerOneName = "X";
         }
         else {
             playerOneName = playerOneInputField.value;
+        }
+        if (playerTwoInputField.value.trim() === "") {
+            playerTwoName = "O";
+        }
+        else {
             playerTwoName = playerTwoInputField.value;
         }
         playerAssignmentClick();
