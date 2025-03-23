@@ -84,3 +84,8 @@ button[class$="-x"]{
 button:disabled{
     transform: none;
 }
+.action-buttons{
+    display: flex;
+    justify-content: space-between;
+    gap:30px;
+}

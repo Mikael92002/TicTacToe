@@ -6,10 +6,13 @@ const displayController = (function () {
 })();
 
 const gameLogic = (function () {
-    //gameButtons defined here because of regular use:
+    //gameButtons and playerWin defined here because of regular use:
     const gameButtons = document.querySelectorAll(".game-button");
+    let playerWin = false;
     //player name/icon extracting logic:
     const startButton = document.querySelector("#start-button");
+    const restartButton = document.querySelector("#restart-button");
+    const selectionButtons = document.querySelectorAll(".selection");
     const playerOneInputField = document.querySelector(".player-one-name");
     const playerTwoInputField = document.querySelector(".player-two-name");
     const playerInputContainer = document.querySelector("#player-name-input-container");
@@ -91,15 +94,17 @@ const gameLogic = (function () {
         playerOneName = playerOneInputField.value;
         playerTwoName = playerTwoInputField.value;
         playerAssignmentClick();
-        document.querySelectorAll(".selection").forEach(button => {
+        selectionButtons.forEach(button => {
             button.disabled = true;
         });
         startButton.disabled = true;
-
         gameButtons.forEach(button => {
             button.disabled = false;
         });
     });
+   
+        
+    
 
     let activeMarker;
 
@@ -123,9 +128,6 @@ const gameLogic = (function () {
     }
 
     //Button-clicking logic:
-    let playerWin = false;
-
-
     gameButtons.forEach(button => {
         button.disabled = true;
         button.addEventListener("click", (event) => {
@@ -156,6 +158,17 @@ const gameLogic = (function () {
             if (playerWin) {
                 nameOneDiv.textContent = playerOne.name + ": " + playerOne.score + " ";
                 nameTwoDiv.textContent = playerTwo.name + ": " + playerTwo.score + " ";
+
+                playerOneButtonDiv.textContent = playerOneMarker;
+                playerOneButtonDiv.style.backgroundColor = "green";
+                playerOneButtonDiv.style.border = "none";
+                playerOneButtonDiv.style.padding = "5px";
+                playerTwoButtonDiv.textContent = playerTwoMarker;
+                playerTwoButtonDiv.style.backgroundColor = "blueviolet";
+                playerTwoButtonDiv.style.padding = "5px";
+                playerTwoButtonDiv.style.border = "none";
+                nameOneDiv.appendChild(playerOneButtonDiv);
+                nameTwoDiv.appendChild(playerTwoButtonDiv);
             }
         })
     });
@@ -186,6 +199,10 @@ const gameLogic = (function () {
             playerWin = true;
         }
         else if (player.gridPlace.includes("0") && player.gridPlace.includes("3") && player.gridPlace.includes("6")) {
+            player.score++;
+            playerWin = true;
+        }
+        else if (player.gridPlace.includes("1") && player.gridPlace.includes("4") && player.gridPlace.includes("7")) {
             player.score++;
             playerWin = true;
         }
