@@ -1,0 +1,90 @@
+body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    min-height: 94%;
+    margin: 0;
+    padding: 0;
+
+}
+
+html {
+    height: 100%;
+    background-color: rgb(189, 84, 255);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#main-grid {
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    grid-template-rows: min-content 200px 200px 200px;
+    justify-self: center;
+    align-self: center;
+    margin-top: 50px;
+}
+
+.row {
+    border: 1px solid red;
+}
+
+.player-names-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    grid-column: 1/4;
+    font-weight: 900;
+    font-size: larger;
+    margin-bottom: 10px;
+}
+
+
+#player-name-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+    font-weight: 900;
+}
+
+button {
+    border: 5px solid black;
+}
+button:active{
+    transform: scale(0.98);
+}
+
+button[id$="confirm"] {
+    border: none;
+}
+button[class$="-o"]{
+    color:rgb(118, 228, 255);
+    font-weight: 900;
+    font-size: 1em;
+    border:none;
+    background-color:blueviolet;
+}
+button[class$="-x"]{
+    color:rgb(225, 255, 0);
+    border: none;
+    font-weight: 900;
+    font-size: 1em;
+    background-color: blueviolet;
+}
+#start-button{
+    border:none;
+    font-weight: 900;
+    font-size:large;
+    background-color: blueviolet;
+    color: yellow;
+    border-radius:20px;
+    padding:10px;
+    margin-top:10px;
+}
+#start-button:enabled:active{
+    box-shadow: 0 0 2.5px 2.5px black;
+}
+button:disabled{
+    transform: none;
+}
