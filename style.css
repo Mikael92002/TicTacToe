@@ -24,10 +24,6 @@ html {
     margin-top: 50px;
 }
 
-.row {
-    border: 1px solid red;
-}
-
 .player-names-container {
     display: flex;
     justify-content: space-between;
