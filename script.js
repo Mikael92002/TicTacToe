@@ -45,6 +45,24 @@ const gameLogic = (function () {
             document.querySelector(".two-marker-o").style.backgroundColor = "blueviolet";
             startButton.disabled = false;
         }
+        if(event.target.classList.contains("two-marker-x")){
+            playerOneMarker = "O";
+            playerTwoMarker = "X";
+            event.target.style.backgroundColor = "green";
+            document.querySelector(".one-marker-x").style.backgroundColor = "blueviolet";
+            document.querySelector(".one-marker-o").style.backgroundColor = "green";
+            document.querySelector(".two-marker-o").style.backgroundColor = "blueviolet";
+            startButton.disabled = false;
+        }
+        else if(event.target.classList.contains("two-marker-o")){
+            playerOneMarker = "X";
+            playerTwoMarker = "O";
+            event.target.style.backgroundColor = "green";
+            document.querySelector(".one-marker-o").style.backgroundColor = "blueviolet";
+            document.querySelector(".one-marker-x").style.backgroundColor = "green";
+            document.querySelector(".two-marker-x").style.backgroundColor = "blueviolet";
+            startButton.disabled = false;
+        }
     });
 
 
@@ -104,6 +122,8 @@ const gameLogic = (function () {
         gameButtons.forEach(button => {
             button.disabled = false;
         });
+        playerOneInputField.disabled = true;
+        playerTwoInputField.disabled = true;
     });
     restartButton.addEventListener("click", () => {
         if (playerOne === undefined) return;
@@ -115,7 +135,7 @@ const gameLogic = (function () {
             playerWin = false;
         })
     })
-    
+
 
 
 
@@ -155,33 +175,37 @@ const gameLogic = (function () {
             button.style.fontWeight = "900";
 
             if (!gameBoard.arr.includes(event.target.id)) {
-                gameBoard.arr[event.target.id] = event.target.id;
+                gameBoard.arr.push(event.target.id);
                 if (playerOne.turn) {
                     playerOne.gridPlace.push(event.target.id);
                 }
                 else {
                     playerTwo.gridPlace.push(event.target.id);
                 }
-
+                //SWITCHES TURNS:
+                button.textContent = currentPlayerButton();
+                if (button.textContent === "X") {
+                    button.style.color = "rgb(255, 221, 0)";
+                }
+                else button.style.color = "rgb(118, 228, 255)";
             }
-
             const winningPlayerOne = winCheck(playerOne);
             const winningPlayerTwo = winCheck(playerTwo);
-            button.textContent = currentPlayerButton();
-            if (button.textContent === "X") {
-                button.style.color = "rgb(255, 221, 0)";
-            }
-            else button.style.color = "rgb(118, 228, 255)";
+
 
             if (playerWin) {
                 nameOneDiv.textContent = playerOne.name + ": " + playerOne.score + " ";
                 nameTwoDiv.textContent = playerTwo.name + ": " + playerTwo.score + " ";
-                if(winningPlayerOne!==undefined){
+                if (winningPlayerOne !== undefined) {
                     winningPlayerDiv.textContent = playerOne.name + " wins!";
                 }
-                else if(winningPlayerTwo !== undefined){
+                else if (winningPlayerTwo !== undefined) {
                     winningPlayerDiv.textContent = playerTwo.name + " wins!";
                 }
+                dialog.showModal();
+            }
+            else if (!playerWin && gameBoard.arr.length === 9) {
+                winningPlayerDiv.textContent = "It's a draw!";
                 dialog.showModal();
             }
         })
