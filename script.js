@@ -114,12 +114,14 @@ const gameLogic = (function () {
     startButton.addEventListener("click", () => {
         if (playerOneInputField.value.trim() === "") {
             playerOneName = "Player 1";
+            playerOneInputField.value = playerOneName;
         }
         else {
             playerOneName = playerOneInputField.value;
         }
         if (playerTwoInputField.value.trim() === "") {
             playerTwoName = "Player 2";
+            playerTwoInputField.value = playerTwoName;
         }
         else {
             playerTwoName = playerTwoInputField.value;
